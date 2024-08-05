@@ -1,27 +1,72 @@
 # RouteFinder
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.3.
+Dieses Projekt wurde mit [Angular CLI](https://github.com/angular/angular-cli) Version 18.1.3 erstellt.
 
-## Development server
+## Überblick
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Dieses Projekt ist eine Single Page Application (SPA), die es Benutzern ermöglicht, Start- und Zielorte einzugeben und die Route zwischen diesen Orten zu berechnen. Es verwendet Angular für das Frontend und Express für das Backend. Die Anwendung kommuniziert mit den OpenRouteService APIs, um Adressvorschläge und Routeninformationen zu erhalten.
 
-## Code scaffolding
+## Voraussetzungen
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Stellen Sie sicher, dass Node.js und npm auf Ihrem System installiert sind.
+
+## Installation
+
+### Backend
+
+1. Navigieren Sie in das Stammverzeichnis des Projekts.
+2. Installieren Sie die Backend-Abhängigkeiten und starten Sie den Backend-Server:
+
+    ```bash
+    npm install
+    node server.js
+    ```
+
+   Der Backend-Server sollte nun auf `http://localhost:3000` laufen.
+
+### Frontend
+
+1. Öffnen Sie ein neues Terminal und navigieren Sie in das Angular-Projektverzeichnis (normalerweise `src`).
+2. Installieren Sie die Frontend-Abhängigkeiten und starten Sie den Frontend-Server:
+
+    ```bash
+    cd path/to/your/angular/project
+    npm install
+    ng serve
+    ```
+
+   Der Frontend-Entwicklungsserver sollte nun auf `http://localhost:4200` laufen.
+
+## APIs
+
+Die Anwendung nutzt die folgenden OpenRouteService API-Endpunkte:
+- `https://api.openrouteservice.org/geocode/search`
+- `https://api.openrouteservice.org/v2/directions/`
+- `https://api.openrouteservice.org/geocode/autocomplete`
+
+## Entwicklungsserver
+
+Führen Sie `ng serve` aus, um einen Entwicklungsserver zu starten. Navigieren Sie zu `http://localhost:4200/`. Die Anwendung wird automatisch neu geladen, wenn Sie eine der Quelldateien ändern.
+
+## Code-Gerüst
+
+Führen Sie `ng generate component component-name` aus, um eine neue Komponente zu generieren. Sie können auch `ng generate directive|pipe|service|class|guard|interface|enum|module` verwenden.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Führen Sie `ng build` aus, um das Projekt zu bauen. Die Build-Artefakte werden im Verzeichnis `dist/` gespeichert.
 
-## Running unit tests
+## Unit-Tests ausführen
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Führen Sie `ng test` aus, um die Unit-Tests über [Karma](https://karma-runner.github.io) auszuführen.
 
-## Running end-to-end tests
+## End-to-End-Tests ausführen
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Führen Sie `ng e2e` aus, um die End-to-End-Tests über eine Plattform Ihrer Wahl auszuführen. Um diesen Befehl zu verwenden, müssen Sie zuerst ein Paket hinzufügen, das End-to-End-Testfunktionen implementiert.
 
-## Further help
+## Weitere Hilfe
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Um weitere Hilfe zum Angular CLI zu erhalten, verwenden Sie `ng help` oder schauen Sie sich die [Angular CLI Übersicht und Befehlsreferenz](https://angular.dev/tools/cli) an.
+
+## Verzeichnisstruktur
+

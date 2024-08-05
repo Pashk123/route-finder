@@ -1,1 +1,36 @@
-<p>route-input works!</p>
+<mat-card>
+  <!-- Eingabefeld für Startort -->
+  <mat-form-field appearance="fill">
+    <mat-label>Start Location</mat-label>
+    <input type="text" matInput [formControl]="startControl" [matAutocomplete]="autoStart">
+    <mat-autocomplete #autoStart="matAutocomplete">
+      <mat-option *ngFor="let option of startOptions | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  
+  <!-- Eingabefeld für Zielort -->
+  <mat-form-field appearance="fill">
+    <mat-label>End Location</mat-label>
+    <input type="text" matInput [formControl]="endControl" [matAutocomplete]="autoEnd">
+    <mat-autocomplete #autoEnd="matAutocomplete">
+      <mat-option *ngFor="let option of endOptions | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- Dropdown-Auswahl für das Profil -->
+  <mat-form-field appearance="fill">
+    <mat-label>Profile</mat-label>
+    <mat-select [formControl]="profileControl">
+      <mat-option value="driving-car">Driving (Car)</mat-option>
+      <mat-option value="cycling-regular">Cycling (Regular)</mat-option>
+      <mat-option value="foot-walking">Walking (Foot)</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <!-- Button zur Routenberechnung -->
+  <button mat-raised-button color="primary" (click)="getRoute()">Calculate Route</button>
+</mat-card>

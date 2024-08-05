@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-route-display',
-  standalone: true,
-  imports: [],
   templateUrl: './route-display.component.html',
-  styleUrl: './route-display.component.css'
+  styleUrls: ['./route-display.component.css']
 })
 export class RouteDisplayComponent {
-
+  @Input() route: any;
 }

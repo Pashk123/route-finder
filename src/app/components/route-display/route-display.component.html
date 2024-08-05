@@ -1,1 +1,5 @@
-<p>route-display works!</p>
+<mat-card *ngIf="route">
+    <h2>Route Details</h2>
+    <pre>{{ route | json }}</pre>
+  </mat-card>
+  
