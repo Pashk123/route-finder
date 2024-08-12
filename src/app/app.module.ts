@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +14,7 @@ import { RouteInputComponent } from './components/route-input/route-input.compon
 import { RouteDisplayComponent } from './components/route-display/route-display.component';
 import { RouteService } from './services/route.service';
 import { routes } from './app.routes'; // Importiere die Routen
+import { FeatureModule } from './feature.module';
 
 @NgModule({
   declarations: [
@@ -31,10 +31,10 @@ import { routes } from './app.routes'; // Importiere die Routen
     MatCardModule,
     MatAutocompleteModule,
     MatSelectModule,
-    RouterModule.forRoot(routes) // Verwende die Routen hier
+    RouterModule.forRoot(routes),
+    FeatureModule
   ],
   providers: [
-    provideHttpClient(),
     RouteService
   ],
   bootstrap: [AppComponent]

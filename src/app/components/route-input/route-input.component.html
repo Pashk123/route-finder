@@ -1,36 +1,38 @@
 <mat-card>
-  <!-- Eingabefeld für Startort -->
   <mat-form-field appearance="fill">
-    <mat-label>Start Location</mat-label>
-    <input type="text" matInput [formControl]="startControl" [matAutocomplete]="autoStart">
-    <mat-autocomplete #autoStart="matAutocomplete">
+    <mat-label>Startort</mat-label>
+    <input type="text" matInput [formControl]="startControl" [matAutocomplete]="autoStart"
+      (keyup.enter)="onEnterPressed('start')" #startInput>
+    <mat-autocomplete #autoStart="matAutocomplete" [displayWith]="displayFn"
+      (optionSelected)="onOptionSelected($event, 'start')">
       <mat-option *ngFor="let option of startOptions | async" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  
-  <!-- Eingabefeld für Zielort -->
-  <mat-form-field appearance="fill">
-    <mat-label>End Location</mat-label>
-    <input type="text" matInput [formControl]="endControl" [matAutocomplete]="autoEnd">
-    <mat-autocomplete #autoEnd="matAutocomplete">
-      <mat-option *ngFor="let option of endOptions | async" [value]="option">
-        {{ option }}
+        {{ option.label }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 
-  <!-- Dropdown-Auswahl für das Profil -->
   <mat-form-field appearance="fill">
-    <mat-label>Profile</mat-label>
+    <mat-label>Zielort</mat-label>
+    <input type="text" matInput [formControl]="endControl" [matAutocomplete]="autoEnd"
+      (keyup.enter)="onEnterPressed('end')" #endInput>
+    <mat-autocomplete #autoEnd="matAutocomplete" [displayWith]="displayFn"
+      (optionSelected)="onOptionSelected($event, 'end')">
+      <mat-option *ngFor="let option of endOptions | async" [value]="option">
+        {{ option.label }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Profil</mat-label>
     <mat-select [formControl]="profileControl">
-      <mat-option value="driving-car">Driving (Car)</mat-option>
-      <mat-option value="cycling-regular">Cycling (Regular)</mat-option>
-      <mat-option value="foot-walking">Walking (Foot)</mat-option>
+      <mat-option value="driving-car">Auto</mat-option>
+      <mat-option value="cycling-regular">Fahrrad (Normal)</mat-option>
+      <mat-option value="foot-walking">Zu Fuß (Gehen)</mat-option>
     </mat-select>
   </mat-form-field>
-  
-  <!-- Button zur Routenberechnung -->
-  <button mat-raised-button color="primary" (click)="getRoute()">Calculate Route</button>
+
+  <button mat-raised-button color="primary" (click)="getRoute()">Route berechnen</button>
+
+  <div id="map" style="width: 100%; height: 400px;"></div>
 </mat-card>

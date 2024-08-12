@@ -1,0 +1,3 @@
+.mat-card {
+    border-radius: 0 !important; /* Removes the rounding of the corners */
+}
