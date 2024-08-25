@@ -30,10 +30,7 @@ export class RouteService {
     return this.http.get<any>(`${this.apiUrl}/search`, { params });
   }
 
-  
-  getAddressSuggestions(query: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/addresses`, { params: { query } });
-  }
+
 
   getAutocompleteSuggestions(query: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/autocomplete`, { params: { query } }).pipe(
@@ -45,20 +42,6 @@ export class RouteService {
     );
   }
 
-  getFrequentRoutes(): string[] {
-    return JSON.parse(localStorage.getItem('frequentRoutes') || '[]');
-  }
-
-  saveRouteSearch(query: string): void {
-    let frequentRoutes = this.getFrequentRoutes();
-    if (!frequentRoutes.includes(query)) {
-      if (frequentRoutes.length >= 10) {
-        frequentRoutes.pop();
-      }
-      frequentRoutes.unshift(query);
-      localStorage.setItem('frequentRoutes', JSON.stringify(frequentRoutes));
-    }
-  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

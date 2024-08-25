@@ -48,10 +48,6 @@ Die Anwendung nutzt die folgenden OpenRouteService API-Endpunkte:
 
 Führen Sie `ng serve` aus, um einen Entwicklungsserver zu starten. Navigieren Sie zu `http://localhost:4200/`. Die Anwendung wird automatisch neu geladen, wenn Sie eine der Quelldateien ändern.
 
-## Code-Gerüst
-
-Führen Sie `ng generate component component-name` aus, um eine neue Komponente zu generieren. Sie können auch `ng generate directive|pipe|service|class|guard|interface|enum|module` verwenden.
-
 ## Build
 
 Führen Sie `ng build` aus, um das Projekt zu bauen. Die Build-Artefakte werden im Verzeichnis `dist/` gespeichert.
@@ -60,9 +56,11 @@ Führen Sie `ng build` aus, um das Projekt zu bauen. Die Build-Artefakte werden 
 
 Führen Sie `ng test` aus, um die Unit-Tests über [Karma](https://karma-runner.github.io) auszuführen.
 
+
 ## End-to-End-Tests ausführen
 
 Führen Sie `ng e2e` aus, um die End-to-End-Tests über eine Plattform Ihrer Wahl auszuführen. Um diesen Befehl zu verwenden, müssen Sie zuerst ein Paket hinzufügen, das End-to-End-Testfunktionen implementiert.
+
 
 ## Weitere Hilfe
 

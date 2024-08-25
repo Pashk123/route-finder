@@ -141,10 +141,12 @@ export class RouteInputComponent implements OnInit {
             this.setMarkers(coordinatesArray, labels, type);
 
             const firstResult = searchResults.features[0];
+            const searchresult = { label: firstResult.properties.label, coordinates: firstResult.geometry.coordinates };
+            this.saveSelectedOption(searchresult); // Save the selected option
             if (type === 'start') {
-              this.startControl.setValue({ label: firstResult.properties.label, coordinates: firstResult.geometry.coordinates });
+              this.startControl.setValue(searchresult);
             } else {
-              this.endControl.setValue({ label: firstResult.properties.label, coordinates: firstResult.geometry.coordinates });
+              this.endControl.setValue(searchresult);
             }
 
             this.closeAutocomplete(type);
