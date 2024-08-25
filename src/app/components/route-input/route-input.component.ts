@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { RouteService } from '../../services/route.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, startWith } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import * as L from 'leaflet';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -52,21 +52,27 @@ export class RouteInputComponent implements OnInit {
     return option ? option.label : '';
   }
 
+
+
   // Set up autocomplete options based on user input
   private setupAutocomplete(control: FormControl): Observable<Feature[]> {
     return control.valueChanges.pipe(
+      startWith(''),  // Trigger when input is focused without any value
       switchMap(value => {
-        const query = typeof value === 'string' ? value.trim() : value.label.trim();
-        return query ? this.routeService.getAutocompleteSuggestions(query).pipe(
-          catchError(error => {
-            console.error('Error fetching options:', error);
-            return of([]);
-          })
-        ) : of([]);
+        if (value === '') {
+          return of(this.getSavedOptions());  // Show saved options when input is empty
+        } else {
+          const query = typeof value === 'string' ? value.trim() : value.label.trim();
+          return query ? this.routeService.getAutocompleteSuggestions(query).pipe(
+            catchError(error => {
+              console.error('Error fetching options:', error);
+              return of([]);
+            })
+          ) : of([]);
+        }
       })
     );
   }
-
   // Set markers on the map
   private setMarkers(coordinatesArray: [number, number][], labels: string[], type: 'start' | 'end') {
     const markersArray = type === 'start' ? this.startMarkers : this.endMarkers;
@@ -89,8 +95,38 @@ export class RouteInputComponent implements OnInit {
     const selectedOption = event.option.value as Feature;
     if (selectedOption && selectedOption.coordinates) {
       this.setMarkers([selectedOption.coordinates], [selectedOption.label], type);
+      this.saveSelectedOption(selectedOption); // Save the selected option
       this.closeAutocomplete(type);
     }
+  }
+
+  // Save the selected option to local storage with frequency tracking
+  private saveSelectedOption(selectedOption: Feature) {
+    const savedOptionsKey = 'savedOptions';
+    let savedOptions: Feature[] = JSON.parse(localStorage.getItem(savedOptionsKey) || '[]');
+
+    // Check if the option already exists
+    const existingOptionIndex = savedOptions.findIndex(item => item.label === selectedOption.label);
+
+    if (existingOptionIndex == -1) {
+      // Add the new option to the beginning of the array, if it does not exist yet
+      savedOptions.unshift(selectedOption);
+
+    }
+
+    // Limit to the last 10 options
+    if (savedOptions.length > 10) {
+      savedOptions = savedOptions.slice(savedOptions.length - 10);
+    }
+
+    // Save back to local storage
+    localStorage.setItem(savedOptionsKey, JSON.stringify(savedOptions));
+  }
+
+  // Optionally, you can create a method to retrieve these saved options
+  getSavedOptions(): Feature[] {
+    const savedOptionsKey = 'savedOptions';
+    return JSON.parse(localStorage.getItem(savedOptionsKey) || '[]');
   }
 
   // Handle Enter key press to search and set markers
@@ -197,3 +233,4 @@ export class RouteInputComponent implements OnInit {
     }
   }
 }
+
