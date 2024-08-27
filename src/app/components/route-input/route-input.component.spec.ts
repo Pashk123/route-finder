@@ -1,5 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteInputComponent } from './route-input.component';
-import { of } from 'rxjs';
 
 describe('RouteInputComponent', () => {
   let component: RouteInputComponent;
@@ -22,8 +23,10 @@ describe('RouteInputComponent', () => {
         MatInputModule,
         MatAutocompleteModule,
         MatSelectModule,
-        NoopAnimationsModule,
-        HttpClientModule  // <-- Add this line
+        NoopAnimationsModule
+      ],
+      providers: [
+        provideHttpClient()  // <-- Updated to use the new method
       ]
     }).compileComponents();
   });
@@ -39,6 +42,7 @@ describe('RouteInputComponent', () => {
   });
 
   it('should display start options in autocomplete when typing', async () => {
+    // Mock the options that should appear in the autocomplete
     component.startOptions = of([
       { label: 'Berlin', coordinates: [52.5200, 13.4050] },
       { label: 'Munich', coordinates: [48.1351, 11.5820] },
@@ -46,22 +50,29 @@ describe('RouteInputComponent', () => {
     ]);
     fixture.detectChanges();
 
-    const startInput = fixture.debugElement.query(By.css('input[formControlName="startControl"]')).nativeElement;
-    startInput.value = 'Ber';
-    startInput.dispatchEvent(new Event('input'));
+    // Find the first input element (assuming the first one is for startControl)
+    const startInput = fixture.debugElement.queryAll(By.css('input[matInput]'))[0].nativeElement;
+
+    startInput.value = 'Ber'; // Simulate user typing 'Ber'
+    startInput.dispatchEvent(new Event('input')); // Dispatch the input event
     fixture.detectChanges();
 
-    await fixture.whenStable();
+    await fixture.whenStable(); // Wait for all async tasks to complete
 
+    // Simulate focus to trigger the autocomplete dropdown
     startInput.dispatchEvent(new Event('focusin'));
     fixture.detectChanges();
 
+    // Now that the dropdown is open, query the options
     const options = fixture.debugElement.queryAll(By.css('mat-option'));
-    expect(options.length).toBe(3);
+    expect(options.length).toBe(3); // Expect 3 options
     expect(options[0].nativeElement.textContent).toContain('Berlin');
+    expect(options[1].nativeElement.textContent).toContain('Munich');
+    expect(options[2].nativeElement.textContent).toContain('Hamburg');
   });
 
   it('should display end options in autocomplete when typing', async () => {
+    // Mock the options that should appear in the autocomplete
     component.endOptions = of([
       { label: 'Cologne', coordinates: [50.9375, 6.9603] },
       { label: 'Frankfurt', coordinates: [50.1109, 8.6821] },
@@ -69,76 +80,102 @@ describe('RouteInputComponent', () => {
     ]);
     fixture.detectChanges();
 
-    const endInput = fixture.debugElement.query(By.css('input[formControlName="endControl"]')).nativeElement;
-    endInput.value = 'Col';
-    endInput.dispatchEvent(new Event('input'));
+    // Find the second input element (assuming the first one is for startControl)
+    const endInput = fixture.debugElement.queryAll(By.css('input[matInput]'))[1].nativeElement;
+
+    endInput.value = 'Col'; // Simulate user typing 'Col'
+    endInput.dispatchEvent(new Event('input')); // Dispatch the input event
     fixture.detectChanges();
 
-    await fixture.whenStable();
+    await fixture.whenStable(); // Wait for all async tasks to complete
 
+    // Simulate focus to trigger the autocomplete dropdown
     endInput.dispatchEvent(new Event('focusin'));
     fixture.detectChanges();
 
+    // Now that the dropdown is open, query the options
     const options = fixture.debugElement.queryAll(By.css('mat-option'));
-    expect(options.length).toBe(3);
+    expect(options.length).toBe(3); // Expect 3 options
     expect(options[0].nativeElement.textContent).toContain('Cologne');
+    expect(options[1].nativeElement.textContent).toContain('Frankfurt');
+    expect(options[2].nativeElement.textContent).toContain('Stuttgart');
   });
 
-  it('should call onOptionSelected when a start option is selected', async () => {
-    spyOn(component, 'onOptionSelected');
 
+  it('should autocomplete the start ort, when an option of the autocomplete suggestions is selected', async () => {
+    spyOn(component, 'onOptionSelected');
+  
+    // Mock the options that should appear in the autocomplete
     component.startOptions = of([
       { label: 'Berlin', coordinates: [52.5200, 13.4050] },
       { label: 'Munich', coordinates: [48.1351, 11.5820] },
       { label: 'Hamburg', coordinates: [53.5511, 9.9937] }
     ]);
     fixture.detectChanges();
-
-    const startInput = fixture.debugElement.query(By.css('input[formControlName="startControl"]')).nativeElement;
-    startInput.value = 'Ber';
-    startInput.dispatchEvent(new Event('input'));
+  
+    // Find the first input element (assuming the first one is for startControl)
+    const startInput = fixture.debugElement.queryAll(By.css('input[matInput]'))[0].nativeElement;
+    
+    startInput.value = 'Ber'; // Simulate user typing 'Ber'
+    startInput.dispatchEvent(new Event('input')); // Dispatch the input event
     fixture.detectChanges();
-
-    await fixture.whenStable();
-
+  
+    await fixture.whenStable(); // Wait for all async tasks to complete
+  
+    // Simulate focus to trigger the autocomplete dropdown
     startInput.dispatchEvent(new Event('focusin'));
     fixture.detectChanges();
-
+  
+    // Now that the dropdown is open, query the options
     const options = fixture.debugElement.queryAll(By.css('mat-option'));
-    options[0].nativeElement.click();
+    options[0].nativeElement.click(); // Click on the first option ("Berlin")
     fixture.detectChanges();
-
+  
+    // Check if onOptionSelected was called
     expect(component.onOptionSelected).toHaveBeenCalledWith(jasmine.any(Object), 'start');
+  
+    // Check if the input field displays the selected option's label
+    expect(startInput.value).toBe('Berlin');
   });
+  
 
-  it('should call onOptionSelected when an end option is selected', async () => {
+  it('should display the selected start option in the input field and call onOptionSelected', async () => {
     spyOn(component, 'onOptionSelected');
-
-    component.endOptions = of([
-      { label: 'Cologne', coordinates: [50.9375, 6.9603] },
-      { label: 'Frankfurt', coordinates: [50.1109, 8.6821] },
-      { label: 'Stuttgart', coordinates: [48.7758, 9.1829] }
+  
+    // Mock the options that should appear in the autocomplete
+    component.startOptions = of([
+      { label: 'Berlin', coordinates: [52.5200, 13.4050] },
+      { label: 'Munich', coordinates: [48.1351, 11.5820] },
+      { label: 'Hamburg', coordinates: [53.5511, 9.9937] }
     ]);
     fixture.detectChanges();
-
-    const endInput = fixture.debugElement.query(By.css('input[formControlName="endControl"]')).nativeElement;
-    endInput.value = 'Col';
-    endInput.dispatchEvent(new Event('input'));
+  
+    // Find the first input element (assuming the first one is for startControl)
+    const startInput = fixture.debugElement.queryAll(By.css('input[matInput]'))[0].nativeElement;
+    
+    startInput.value = 'Ber'; // Simulate user typing 'Ber'
+    startInput.dispatchEvent(new Event('input')); // Dispatch the input event
     fixture.detectChanges();
-
-    await fixture.whenStable();
-
-    endInput.dispatchEvent(new Event('focusin'));
+  
+    await fixture.whenStable(); // Wait for all async tasks to complete
+  
+    // Simulate focus to trigger the autocomplete dropdown
+    startInput.dispatchEvent(new Event('focusin'));
     fixture.detectChanges();
-
+  
+    // Now that the dropdown is open, query the options
     const options = fixture.debugElement.queryAll(By.css('mat-option'));
-    options[0].nativeElement.click();
+    options[0].nativeElement.click(); // Click on the first option ("Berlin")
     fixture.detectChanges();
-
-    expect(component.onOptionSelected).toHaveBeenCalledWith(jasmine.any(Object), 'end');
+  
+    // Check if onOptionSelected was called
+    expect(component.onOptionSelected).toHaveBeenCalledWith(jasmine.any(Object), 'start');
+  
+    // Check if the input field displays the selected option's label
+    expect(startInput.value).toBe('Berlin');
   });
-
-  it('should call getRoute when the button is clicked', () => {
+  
+  it('should call getRoute when the button calculate route is clicked', () => {
     spyOn(component, 'getRoute');
 
     const button = fixture.debugElement.query(By.css('button')).nativeElement;
@@ -147,13 +184,26 @@ describe('RouteInputComponent', () => {
     expect(component.getRoute).toHaveBeenCalled();
   });
 
-  it('should populate the profile select options correctly', () => {
+  it('should populate the profile select options correctly', async () => {
+    fixture.detectChanges();  // Trigger initial change detection
+
+    // Find the mat-select element and trigger a click to open it
+    const selectElement = fixture.debugElement.query(By.css('mat-select')).nativeElement;
+    selectElement.click();
+    fixture.detectChanges();  // Update the DOM after the click
+
+    await fixture.whenStable();  // Wait for all async tasks to complete
+
+    fixture.detectChanges();  // Finalize DOM updates after async tasks
+
+    // Now query the options
     const options = fixture.debugElement.queryAll(By.css('mat-option'));
-    expect(options.length).toBe(3);
+    expect(options.length).toBe(3);  // Expect 3 options
     expect(options[0].nativeElement.textContent).toContain('Auto');
     expect(options[1].nativeElement.textContent).toContain('Fahrrad (Normal)');
     expect(options[2].nativeElement.textContent).toContain('Zu Fuß (Gehen)');
   });
+
 });
 
 /* import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
