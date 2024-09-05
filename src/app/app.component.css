@@ -1,38 +1,62 @@
 /* app.component.css */
+
 body, html {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-  }
-  
-  header {
+    height: 100%; /* Ensure body takes full height */
+}
+
+header {
     background-color: #19345c;
     color: white;
     padding: 10px 0;
     text-align: center;
-  }
-  
-  .header-container h1 {
+}
+
+.header-container h1 {
     margin: 0;
-  }
-  
-  main {
-    padding: 20px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Ensures main section grows to fill available space */
+    padding: 0; /* Remove padding to avoid extra space */
     min-height: calc(100vh - 120px); /* Adjust according to header and footer height */
-  }
-  
-  footer {
+}
+
+footer {
     background-color: #19345c;
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: fixed;
+    position: relative;
     width: 100%;
     bottom: 0;
-  }
-  
-  .footer-container p {
-    margin: 0;
-  }
+    flex-shrink: 0; /* Ensure footer does not shrink */
+}
 
-  
+.footer-container p {
+    margin: 0;
+}
+
+/* Flexbox for layout */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure body is at least the height of the viewport */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header, footer {
+        padding: 8px 0; /* Adjust padding for smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    header, footer {
+        padding: 8px 0; /* Further adjust padding for very small screens */
+    }
+}

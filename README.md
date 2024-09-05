@@ -59,7 +59,21 @@ Führen Sie `ng test` aus, um die Unit-Tests über [Karma](https://karma-runner.
 
 ## End-to-End-Tests ausführen
 
-Führen Sie `ng e2e` aus, um die End-to-End-Tests über eine Plattform Ihrer Wahl auszuführen. Um diesen Befehl zu verwenden, müssen Sie zuerst ein Paket hinzufügen, das End-to-End-Testfunktionen implementiert.
+Für End-to-End-Tests verwenden wir **Cypress**. Um den Test auszuführen, starten Sie die Anwendung und verwenden Sie den folgenden Befehl, um Cypress zu öffnen:
+
+### Cypress installieren:
+
+1. Installieren Sie Cypress über npm:
+   
+   npm install cypress --save-dev
+
+2. Cypress öffnen
+
+    npx cypress open
+
+Wählen Sie im Cypress-Fenster den Test route-input.cy.ts im Verzeichnis cypress/e2e aus. 
+Dieser Test simuliert die Eingabe eines Start- und Zielorts sowie die Berechnung der Route.
+
 
 
 ## Weitere Hilfe

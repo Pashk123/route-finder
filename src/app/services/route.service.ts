@@ -31,22 +31,4 @@ export class RouteService {
   }
 
 
-
-  getAutocompleteSuggestions(query: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/autocomplete`, { params: { query } }).pipe(
-      map(response => response.features.map((f: any) => ({
-        label: f.properties.label,
-        coordinates: f.geometry.coordinates
-      }))),
-      catchError(this.handleError('getAutocompleteSuggestions', []))
-    );
-  }
-
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
 }

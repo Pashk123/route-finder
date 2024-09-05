@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { RouteInputComponent } from './components/route-input/route-input.component';
-import { RouteDisplayComponent } from './components/route-display/route-display.component';
 import { RouteService } from './services/route.service';
 import { routes } from './app.routes'; // Importiere die Routen
 import { FeatureModule } from './feature.module';
@@ -19,8 +18,7 @@ import { FeatureModule } from './feature.module';
 @NgModule({
   declarations: [
     AppComponent,
-    RouteInputComponent,
-    RouteDisplayComponent
+    RouteInputComponent
   ],
   imports: [
     BrowserModule,

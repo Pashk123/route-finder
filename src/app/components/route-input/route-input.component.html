@@ -1,26 +1,15 @@
 <mat-card>
+
   <mat-form-field appearance="fill">
     <mat-label>Startort</mat-label>
-    <input type="text" matInput [formControl]="startControl" [matAutocomplete]="autoStart"
+    <input type="text" name="start" matInput [formControl]="startControl" [value]="startControl.value?.label || ''"
       (keyup.enter)="onEnterPressed('start')" #startInput>
-    <mat-autocomplete #autoStart="matAutocomplete" [displayWith]="displayFn"
-      (optionSelected)="onOptionSelected($event, 'start')">
-      <mat-option *ngFor="let option of startOptions | async" [value]="option">
-        {{ option.label }}
-      </mat-option>
-    </mat-autocomplete>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Zielort</mat-label>
-    <input type="text" matInput [formControl]="endControl" [matAutocomplete]="autoEnd"
+    <input type="text" name="end" matInput [formControl]="endControl" [value]="endControl.value?.label || ''"
       (keyup.enter)="onEnterPressed('end')" #endInput>
-    <mat-autocomplete #autoEnd="matAutocomplete" [displayWith]="displayFn"
-      (optionSelected)="onOptionSelected($event, 'end')">
-      <mat-option *ngFor="let option of endOptions | async" [value]="option">
-        {{ option.label }}
-      </mat-option>
-    </mat-autocomplete>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
@@ -32,7 +21,7 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="getRoute()">Route berechnen</button>
+  <button mat-raised-button name="plan-route" color="primary" (click)="getRoute()">Route berechnen</button>
 
   <div id="map" style="width: 100%; height: 400px;"></div>
 </mat-card>
