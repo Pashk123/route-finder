@@ -48,7 +48,12 @@ export class RouteInputComponent implements OnInit {
     const end = this.endControl.value;
     const profile = this.profileControl.value || 'driving-car';
 
-    if (!start || !end || !start.coordinates || !end.coordinates) {
+    if (start && end) {
+      this.onEnterPressed('start');
+      this.onEnterPressed('end');
+    }
+    else {
+
       console.error('Start and end locations must be selected from the suggestions');
       return;
     }
