@@ -42,15 +42,11 @@ Stellen Sie sicher, dass Node.js und npm auf Ihrem System installiert sind.
 Die Anwendung nutzt die folgenden OpenRouteService API-Endpunkte:
 - `https://api.openrouteservice.org/geocode/search`
 - `https://api.openrouteservice.org/v2/directions/`
-- `https://api.openrouteservice.org/geocode/autocomplete`
 
 ## Entwicklungsserver
 
 Führen Sie `ng serve` aus, um einen Entwicklungsserver zu starten. Navigieren Sie zu `http://localhost:4200/`. Die Anwendung wird automatisch neu geladen, wenn Sie eine der Quelldateien ändern.
 
-## Build
-
-Führen Sie `ng build` aus, um das Projekt zu bauen. Die Build-Artefakte werden im Verzeichnis `dist/` gespeichert.
 
 ## Unit-Tests ausführen
 
@@ -59,11 +55,11 @@ Führen Sie `ng test` aus, um die Unit-Tests über [Karma](https://karma-runner.
 
 ## End-to-End-Tests ausführen
 
-Für End-to-End-Tests verwenden wir **Cypress**. Um den Test auszuführen, starten Sie die Anwendung und verwenden Sie den folgenden Befehl, um Cypress zu öffnen:
+**Cypress** wird verwendet für die End-to-End-Tests
 
 ### Cypress installieren:
 
-1. Installieren Sie Cypress über npm:
+1. Installieren Sie Cypress über npm
    
    npm install cypress --save-dev
 
@@ -74,11 +70,4 @@ Für End-to-End-Tests verwenden wir **Cypress**. Um den Test auszuführen, start
 Wählen Sie im Cypress-Fenster den Test route-input.cy.ts im Verzeichnis cypress/e2e aus. 
 Dieser Test simuliert die Eingabe eines Start- und Zielorts sowie die Berechnung der Route.
 
-
-
-## Weitere Hilfe
-
-Um weitere Hilfe zum Angular CLI zu erhalten, verwenden Sie `ng help` oder schauen Sie sich die [Angular CLI Übersicht und Befehlsreferenz](https://angular.dev/tools/cli) an.
-
-## Verzeichnisstruktur
 
