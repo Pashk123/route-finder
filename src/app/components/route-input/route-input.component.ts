@@ -23,7 +23,7 @@ export class RouteInputComponent implements OnInit {
   private map!: L.Map;
   private startMarkers: L.Marker[] = [];
   private endMarkers: L.Marker[] = [];
-  private currentRouteLine: L.Polyline | undefined;
+  public currentRouteLine: L.Polyline | undefined;
 
   @Output() routeCalculated = new EventEmitter<any>();
 
